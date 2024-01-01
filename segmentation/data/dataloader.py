@@ -11,7 +11,7 @@ from torchvision import transforms
 import warnings
 warnings.filterwarnings("ignore")
 
-
+from .color_to_label import Color_to_label_map
 
 
 class SegData(BaseDataset):
@@ -19,6 +19,7 @@ class SegData(BaseDataset):
         self.masks_path = masks_path
         self.img_path = img_path
         self.imgs = glob.glob(os.path.join(img_path, '*.png'))
+        self.color_to_label_func=Color_to_label_map()
         self.transform= transform
         
 
@@ -38,26 +39,11 @@ class SegData(BaseDataset):
         img_arr=cv2.cvtColor(img_arr,cv2.COLOR_BGR2RGB) #ASLINDA BGR DONDURUYOR RGB CEVIRIYORUZ. OPENCV PROBLEM
         mask_arr=cv2.imread(mask_path)
         
-        car_color = (142, 0, 0)
-        human_colors = [(60, 20, 220), (0, 0, 255)]
-        
-        zeros_mask=np.zeros(mask_arr.shape[:2])
-        
-        # Görüntüyü düzenle
-        mask_car = np.all(mask_arr == np.array(car_color), axis=2)
-        mask_human = np.any(np.all(mask_arr[:, :, None, :] == np.array(human_colors)[None, None, :, :], axis=3), axis=2)
-
-        zeros_mask[mask_car] = 1
-        zeros_mask[mask_human] = 2 
-
-        #mask_arr[~(mask_car | mask_human)] = 0
-        #mask_arr=cv2.cvtColor(mask_arr,cv2.COLOR_RGB2GRAY)
-        
-        
-   
+        label_mask=self.color_to_label_func(mask_arr)
+                   
         if self.transform:
             image = self.transform(img_arr)
-            mask =  self.transform(zeros_mask)
+            mask =  self.transform(label_mask)
 
         return image, mask
 

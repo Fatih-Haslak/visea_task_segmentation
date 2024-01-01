@@ -1,20 +1,23 @@
-from PIL import Image
 import numpy as np
-import cv2
-import os
-def color_image_to_labelmap(image):#RGB İMAGE
- 
-    for row in range(image.shape[0]):
-        for column in range(image.shape[1]):
-            renk = tuple(image[row, column])
-            
-            if renk == (142, 0, 0): #Car
-                image[row, column] = 1
-            elif renk == (60, 20, 220): #human
-                image[row, column] = 2
-            elif renk == (0,0,255): #human
-                image[row,column] = 2
-            else:
-                image[row, column] = 0
+import torch.nn as nn
+
+class Color_to_label_map(nn.Module):
+    def __init__(self):
+        super(Color_to_label_map, self).__init__()
+        self.car_color=(142, 0, 0)
+        self.human_colors = [(60, 20, 220), (0, 0, 255)]
+        
+    
+    def forward(self,x):#RGB İMAGE
+            # Görüntüyü düzenle
+            self.zeros_mask=np.zeros(x.shape[:2])
+            mask_car = np.all(x == np.array(self.car_color), axis=2)
+            mask_human = np.any(np.all(x[:, :, None, :] == np.array(self.human_colors)[None, None, :, :], axis=3), axis=2)
+
+            self.zeros_mask[mask_car] = 1
+            self.zeros_mask[mask_human] = 2
+
+            return self.zeros_mask
+
 
 

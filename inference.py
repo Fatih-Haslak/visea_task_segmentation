@@ -172,6 +172,7 @@ class SegmentationInference:
             image=(image * 255).astype(np.uint8)
            
             output,mask_image=self.__connected_component_and_detection(array_output_predictions,image)
+        
             
             self.visualize(
                 Mask_Predict=output_predictions,

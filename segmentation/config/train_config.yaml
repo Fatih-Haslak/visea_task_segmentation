@@ -10,7 +10,7 @@ encoder_weights=imagenet
 
 [train_parameters]
 batch_size=6
-epochs=1000
+epochs=100
 num_classes=3
 optimizer=ADAM
 learnig_r=0.001

@@ -4,7 +4,7 @@ test_mask_path=/home/fatih/visea_task/segmentation/dataset/Test/Ground Truth
 
 [model]
 device=cuda:0
-model_path=/home/fatih/visea_task/segmentation/weights/model.pth
+model_path=/home/fatih/visea_task/segmentation/weights/best_model.pth
 
 [data]
 num_classes=3

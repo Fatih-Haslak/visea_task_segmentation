@@ -151,38 +151,17 @@ class SegmentationTrain:
             train_loss = self.__train_fit(self.model, self.train_dataset, self.len_data, self.optimizer, self.criterion)
             val_loss   = self.__validate(self.model, self.val_dataset, self.len_val, self.criterion)
             
-            if(i==300):
-                torch.save(self.model, self.model_save_path+'/vv300_focal_loss_best_model.pth')
-
-            if(i==400):
-                torch.save(self.model, self.model_save_path+'/vv400_focal_loss_best_model.pth')
-
-            if(i==500):
-                torch.save(self.model, self.model_save_path+'/vv500_focal_loss_best_model.pth')
-
-            if(i==600):
-                torch.save(self.model, self.model_save_path+'/vv600_focal_loss_best_model.pth')
-
-            if(i==700):
-                torch.save(self.model, self.model_save_path+'/vv700_focal_loss_best_model.pth')
-
-            if(i==800):
-                torch.save(self.model, self.model_save_path+'/vv800_focal_loss_best_model.pth')
-
-            if(i==900):
-                torch.save(self.model, self.model_save_path+'/vv900_focal_loss_best_model.pth')
-
-
             if(max_score>val_loss):
                 max_score=val_loss
-                torch.save(self.model, self.model_save_path+'/v2900_focal_loss_best_model.pth')
+                torch.save(self.model, self.model_save_path+'/best_model.pth')
                 print("Best Model Kaydedildi")
             else:
-                torch.save(self.model, self.model_save_path+'/v2900_focal_loss_last_model.pth')
+                torch.save(self.model, self.model_save_path+'/any_model.pth')
                 
             print(f'Epoch {i + 1}/{self.epochs} -> '
                 f'Eğitim Kaybı: {train_loss:.4f}' 
                 f' --> Doğrulama Kaybı: {val_loss:.4f}')
+        torch.save(self.model, self.model_save_path+'/last_model.pth')
 
 if __name__ == "__main__":
     train=SegmentationTrain()
