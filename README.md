@@ -16,8 +16,6 @@ python3 train.py
 
 **Modeli test etmek ve sonuçları almak için**
 
-----
-
 cd your_path/visea_task_segmentation
 
 python3 inference.py
