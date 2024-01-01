@@ -22,6 +22,6 @@ python3 inference.py
 
 ----
 
-**Config**
+## CONFIG
 
-segmentation/config dosyasının içerisinde train ve inference kodları için config dosyaları bulunmaktadır. Bu dosyalardan model parametreleri ve veri seti, model dosyalarının yolları belirtilebilmektedir.
+**segmentation/config dosyasının içerisinde train ve inference kodları için config dosyaları bulunmaktadır. Bu dosyalardan model parametreleri ve veri seti, model dosyalarının yolları belirtilebilmektedir.**
