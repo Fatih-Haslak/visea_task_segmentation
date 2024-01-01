@@ -24,4 +24,13 @@ python3 inference.py
 
 ## CONFIG
 
-**segmentation/config dosyasının içerisinde train ve inference kodları için config dosyaları bulunmaktadır. Bu dosyalardan model parametreleri ve veri seti, model dosyalarının yolları belirtilebilmektedir.**
+**segmentation/config klasörünün içerisinde train ve inference kodları için .yaml uzantılı config dosyaları bulunmaktadır. Bu dosyalardan model parametreleri ve veri seti, model dosyalarının yolları belirtilebilmektedir.**
+
+## SONUCLAR
+
+![]()
+![]()
+![]()
+![]()
+![]()
+![]()
