@@ -68,7 +68,7 @@ class SegmentationTrain:
             encoder_name=self.encoder,       
             encoder_weights=self.encoder_weights,   
             in_channels=3,                  
-            classes=self.num_classes #model output
+            classes=self.num_classes #model channel output = class number
         )
         
         self.model.to(self.device)
