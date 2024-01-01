@@ -101,8 +101,8 @@ class SegmentationInference:
      
         original_image=image.copy()
         
-        tensor_mask_dilation=(torch.tensor(mask_dilation)).long()
-
+        tensor_mask_dilation=(torch.tensor(mask_dilation)).long() #maskeye dilation uygulandı
+        #one hot encodıng ıle her channel kendı sınıfına ayrıldı.
         one_hot_mask=one_hot(tensor_mask_dilation,self.num_classes) #return 512,512,1,num_classes -- > squeeze(2) 512,512,num_classes int64
 
 
@@ -111,12 +111,12 @@ class SegmentationInference:
     
         for counter_classes in range(1,self.num_classes): #i=1, i=2
             
-            input_for_component_mask=np.array(one_hot_mask[:,:,counter_classes].unsqueeze(2),dtype=np.uint8)
+            input_for_component_mask=np.array(one_hot_mask[:,:,counter_classes].unsqueeze(2),dtype=np.uint8)#her channelı ayrı olarak componenet analize sok
             
-            output = cv2.connectedComponentsWithStats(
+            output = cv2.connectedComponentsWithStats( #Connected Componenet
             input_for_component_mask, 4, cv2.CV_32S)
 
-            (numLabels, labels, stats, centroids) = output
+            (numLabels, labels, stats, centroids) = output #connected component sonucu
 
      
             list_of_bbox.clear()
@@ -139,13 +139,13 @@ class SegmentationInference:
 
 
             if(counter_classes==1): #back groundu hesaba katmıyoruz
-                self.bbox_dict["car"] = list_of_bbox.copy()
+                self.bbox_dict["car"] = list_of_bbox.copy() #her sınıfın kendi bbox verisi
                         
             elif(counter_classes==2):
                 self.bbox_dict["person"] = list_of_bbox.copy()
     
 
-        return self.__monitoring(original_image,self.bbox_dict),mask_image
+        return self.__monitoring(original_image,self.bbox_dict)
     
     def run(self):
         model = torch.load(self.model_path).to(self.device)
@@ -153,32 +153,31 @@ class SegmentationInference:
 
         for i in range((len(os.listdir(self.test_path)) - 1)):
             
-            image, gt_mask = SegData(self.test_path, self.test_mask_path, self.transform).__getitem__(i) #fixlenebilir demiştik dogrudan galeriden cek.
+            image, gt_mask = SegData(self.test_path, self.test_mask_path, self.transform).__getitem__(i)
             #İMAGE ALMA YONTEMI DEGISEBILIR
             
             gt_mask = gt_mask.permute(1, 2, 0)
 
             x_tensor = image.to(self.device).unsqueeze(0).float()
-            mask = model.predict(x_tensor).squeeze(0)
+            mask = model.predict(x_tensor).squeeze(0) #predict mask
 
             if self.device == "cpu":
-                output_predictions = torch.argmax(torch.softmax(mask, dim=0), dim=0).unsqueeze(2)
+                output_predictions = torch.argmax(torch.softmax(mask, dim=0), dim=0).unsqueeze(2) #softmax + argmax ile sonucları al
             else:
                 output_predictions = torch.argmax(torch.softmax(mask, dim=0), dim=0).cpu().unsqueeze(2)
 
             array_output_predictions=np.array(output_predictions,np.uint8) #tensor to np.array dtype uint8
-            image=np.array(image.permute(1, 2, 0),np.float32) #tensor to np.array dtype in64
+            image=np.array(image.permute(1, 2, 0),np.float32) #tensor to np.array 
             
             image=(image * 255).astype(np.uint8)
-           
-            output,mask_image=self.__connected_component_and_detection(array_output_predictions,image)
-        
             
+            output=self.__connected_component_and_detection(array_output_predictions,image)
+        
+            #görselleştirme
             self.visualize(
                 Mask_Predict=output_predictions,
                 Classification_Predict=output
             )
-
 
 
 if __name__ == "__main__":
