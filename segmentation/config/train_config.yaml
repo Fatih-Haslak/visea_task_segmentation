@@ -1,0 +1,17 @@
+[path_directory]
+train_path=/home/fatih/visea_task/segmentation/dataset/Train/Images
+train_mask_path=/home/fatih/visea_task/segmentation/dataset/Train/Ground Truth
+model_save_path=/home/fatih/visea_task/segmentation/weights
+
+[model]
+device=cuda:0
+encoder=resnet34
+encoder_weights=imagenet
+
+[train_parameters]
+batch_size=6
+epochs=1000
+num_classes=3
+optimizer=ADAM
+learnig_r=0.001
+loss=FocalLoss
