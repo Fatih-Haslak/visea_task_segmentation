@@ -1,6 +1,6 @@
 ## Segmentation Model
 
-**segmenation klasorünün içeriğinde (https://github.com/qubvel/segmentation_models.pytorch) github repository'si bulunmaktadır. Kurulum için dokümantasyon sayfasın linki budur-> (https://smp.readthedocs.io/en/latest/). Bu klasörde ekstra olarak benim train.py kodum , dataset klasorüm, weights klasorüm, custom_utils klasorüm ve içerisindeki kodlarım, data klasorüm içerisinde ise dataloader ve color_to_label kodlarım ve config klasorüm bulunmaktadır.**
+**segmenation klasorünün içeriğinde (https://github.com/qubvel/segmentation_models.pytorch) github repository'si bulunmaktadır. Kurulum için dokümantasyon sayfasın linki budur-> (https://smp.readthedocs.io/en/latest/). Bu klasörde ekstra olarak benim train.py kodum , dataset klasorüm, results klasorüm , weights klasorüm, custom_utils klasorüm ve içerisindeki kodlarım, data klasorüm içerisinde ise dataloader ve color_to_label kodlarım ve config klasorüm bulunmaktadır.**
 
 ## Çalıştırma
 
